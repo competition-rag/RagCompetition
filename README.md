@@ -1,6 +1,10 @@
 # RAG Intelligent Paper Search
 
-An academic paper search UI with query understanding, taxonomy routing, BM25 retrieval, OpenAlex expansion, and Qwen summarization.
+Academic paper search UI with query understanding, taxonomy routing, BM25 retrieval, OpenAlex expansion, and Qwen summarization.
+
+## Distribution Mode
+- GitHub: source code and documentation
+- Baidu Netdisk: (https://pan.baidu.com/s/1mFMTfZzLwxhHCCF0Jmo5uA?pwd=x1uw)
 
 ## Features
 - Qwen query parsing
@@ -11,10 +15,11 @@ An academic paper search UI with query understanding, taxonomy routing, BM25 ret
 - Streamlit UI
 
 ## Quick Start
-1. Copy `app_settings.example.json` to `app_settings.json`
-2. Fill in API keys and local paths
-3. Install dependencies
-4. Run:
+1. Download the full package from Baidu Netdisk
+2. Copy `app_settings.example.json` to `app_settings.json`
+3. Fill in API keys and local paths
+4. Install dependencies
+5. Run:
 
 ```bash
 python -m streamlit run app.py
@@ -31,15 +36,18 @@ conda env create -f environment.yml
 conda activate rag-paper-search
 ```
 
+## Download
+- Baidu Netdisk full package: `TO_BE_FILLED`
+- Suggested package name: `RAG_full_package.zip`
+
 ## Important Files
 - `app.py`: Streamlit entry
-- `app_settings.json`: local config
-- `model/`: classifier model
-- `taxonomy_tree/`: routed CSV shards
-- `query_rewrite_rules.json`: local query expansion rules
+- `app_settings.example.json`: public config template
+- `UPLOAD_TO_GITHUB.md`: upload and distribution guide
+- `BAIDU_NETDISK_TEMPLATE.md`: placeholder text for your Netdisk link
 
-## Upload Notes
+## Notes
 - Keep secrets out of GitHub
-- Use Git LFS for large CSV/model files if you really need them in the repo
-- See `UPLOAD_TO_GITHUB.md`
+- Keep large datasets and model files out of GitHub
+- Use Baidu Netdisk for the full project assets
 

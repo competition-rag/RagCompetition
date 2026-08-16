@@ -100,11 +100,9 @@ Qwen 负责理解复杂科研问题、扩展专业术语和生成更适合检索
 ## 快速开始
 
 1. 从百度网盘下载完整资源包
-2. 将大文件资源按说明放到本地目录
-3. 将 `app_settings.example.json` 复制为 `app_settings.json`
-4. 填写本地路径与 API 配置
-5. 安装依赖
-6. 启动系统
+2. app_settings.json中填写本地路径与 API 配置
+3. 通过requirements.txt安装依赖
+4. 启动系统
 
 ```bash
 python -m streamlit run app.py
@@ -117,26 +115,27 @@ python -m streamlit run app.py
 ```bash
 pip install -r requirements.txt
 ```
-
-### conda
+或者
+### conda环境
 
 ```bash
-conda env create -f environment.yml
+conda create -n rag-paper-search python=3.11 -y
 conda activate rag-paper-search
+pip install -r requirements.txt
 ```
+
 
 ## 配置说明
 
-请基于 `app_settings.example.json` 创建本地配置文件，并补充以下内容：
+请基于 `app_settings.json` 创建本地配置文件，并补充以下内容：
 
-- Qwen API 配置
-- OpenAlex 配置
-- 本地论文 CSV 路径
-- 学科树目录路径
-- 分类模型路径
-- 缓存目录路径
+- Qwen API 配置(自己的Qwen API)
+- OpenAlex 配置(自己的OpenAlex API)
+- 本地论文 CSV 路径(默认配置好，无需改动)
+- 学科树目录路径(默认配置好，无需改动)
+- 分类模型路径(默认配置好，无需改动)
+- 缓存目录路径(默认配置好，无需改动)
 
-请勿将真实密钥或本地私有配置上传到 GitHub。
 
 ## 评测与实验
 
@@ -161,16 +160,10 @@ conda activate rag-paper-search
 
 ## 使用说明
 
-- GitHub 版本用于展示代码、文档与轻量脚本
-- 完整运行请结合百度网盘中的模型与数据资源
-- 若仅用于代码阅读或架构理解，可直接查看 `rag_paper_search/` 下各模块
+- GitHub 版本用于展示项目说明，还有依赖文件
+- 运行请下载百度网盘链接中的项目，然后按照说明进行环境配置
 
-## 注意事项
 
-- 不要将真实 API Key 上传到 GitHub
-- 不要将超大模型文件和原始大规模数据直接上传到 GitHub
-- 建议将完整运行资源统一放在百度网盘中分发
-- 若用于比赛提交，请确保仓库材料与文档内容保持一致
 
 ## 致谢
 

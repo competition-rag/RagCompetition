@@ -1,53 +1,185 @@
 # RAG Intelligent Paper Search
 
-Academic paper search UI with query understanding, taxonomy routing, BM25 retrieval, OpenAlex expansion, and Qwen summarization.
+面向复杂科研问题的智能论文搜索与推荐系统。
 
-## Distribution Mode
-- GitHub: source code and documentation
-- Baidu Netdisk: (https://pan.baidu.com/s/1mFMTfZzLwxhHCCF0Jmo5uA?pwd=x1uw)
+本项目聚焦真实科研工作流中的文献检索需求，面向“问题复杂、约束多、语义强、结果需要结构化展示”的学术搜索场景，构建了一套从查询理解、学科路由、候选召回、引用扩展、语义重排到结果归纳展示的完整检索闭环。
 
-## Features
-- Qwen query parsing
-- Taxonomy-tree routing
-- Local CSV + BM25 retrieval
-- OpenAlex expansion
-- Cross-encoder reranking
-- Streamlit UI
+与传统仅依赖关键词匹配的检索方式不同，本项目强调先理解问题、再缩小检索范围、再进行多策略召回与重排，从而在大规模学术论文库中更高效地找到高相关结果。
 
-## Quick Start
-1. Download the full package from Baidu Netdisk
-2. Copy `app_settings.example.json` to `app_settings.json`
-3. Fill in API keys and local paths
-4. Install dependencies
-5. Run:
+## 项目简介
+
+科研人员在检索论文时，往往不会只输入几个简单关键词，而是会提出包含以下信息的复杂问题：
+
+- 研究主题或任务目标
+- 指定的方法、模型或技术路线
+- 学科领域或研究方向约束
+- 作者、时间、期刊等元数据条件
+- 对引用链条、相关工作和方法对比的需求
+
+本项目针对这一类复杂学术查询，设计了一套结合大模型理解能力与本地检索能力的智能论文搜索系统，提升检索准确性、覆盖率和结构化展示能力。
+
+## 核心能力
+
+- Qwen 查询理解与查询扩展
+- 学科分类模型驱动的学科树路由
+- 基于本地 CSV 论文库的 BM25 检索
+- 元数据过滤与 BM25 并行召回
+- OpenAlex 引用与被引论文扩展
+- Cross-Encoder 语义重排
+- Qwen 驱动的研究总结、方法对比与结果整理
+- Streamlit 学术检索界面
+
+## 系统流程
+
+系统整体采用多阶段检索与排序架构，主要流程如下：
+
+1. 用户输入自然语言科研问题
+2. Qwen 对问题进行查询理解、术语扩展和检索改写
+3. 学科分类模型预测可能的 L1/L2 学科类别
+4. 系统在预构建的学科树中定位对应学科分片
+5. 在目标分片上执行 BM25 检索与元数据过滤
+6. 融合候选结果后选择高分论文进行 OpenAlex 扩展
+7. 对扩展结果与主召回结果进行统一重排
+8. 生成最终 TopN 论文列表及结构化总结结果
+
+## 方案亮点
+
+### 1. 学科树路由先行，降低全库检索噪声
+
+项目首先通过分类模型预测用户问题所属的一级、二级学科，再从本地学科树中加载对应分片数据，而不是直接对整库执行暴力搜索。这样可以显著降低候选噪声，提升检索效率。
+
+### 2. 查询理解与本地检索相结合
+
+Qwen 负责理解复杂科研问题、扩展专业术语和生成更适合检索的查询表达，而本地 BM25 检索负责高效候选召回，兼顾语义理解与工程稳定性。
+
+### 3. 引用扩展增强长尾发现能力
+
+对于主检索阶段得到的高分论文，系统通过 OpenAlex 获取参考文献与被引文献，再将扩展论文重新纳入匹配与排序，增强对长尾相关论文的发现能力。
+
+### 4. 结果不仅可检索，还可解释
+
+系统不仅输出论文列表，还支持研究方向总结、关键发现归纳、方法对比等结构化结果展示，更贴近科研人员的真实使用需求。
+
+## 适用场景
+
+- 文献调研与综述撰写
+- 相关工作快速检索
+- 特定方法或任务的论文查找
+- 多条件约束下的精准搜索
+- 学科交叉问题检索
+- 引用链追踪与补全
+- 科研选题前期背景调研
+
+## 项目结构
+
+```text
+.
+├─ app.py
+├─ app_settings.example.json
+├─ requirements.txt
+├─ environment.yml
+├─ rag_paper_search/
+├─ scripts/
+├─ benchmarks/
+├─ docs/
+├─ taxonomy_tree/           # 完整包中提供
+├─ model/                   # 完整包中提供
+└─ cache/                   # 本地运行后生成
+```
+
+## 分发方式
+
+- GitHub：存放源码、文档、脚本、配置模板等轻量内容
+- 百度网盘：存放完整运行包，包括模型、论文数据、学科树分片和缓存资源
+
+百度网盘完整包：
+
+- 下载链接：[百度网盘完整资源](https://pan.baidu.com/s/10SEvwjV89Xnie3evplaeRg?pwd=t9ju)
+- 提取码：`t9ju`
+
+## 快速开始
+
+1. 从百度网盘下载完整资源包
+2. 将大文件资源按说明放到本地目录
+3. 将 `app_settings.example.json` 复制为 `app_settings.json`
+4. 填写本地路径与 API 配置
+5. 安装依赖
+6. 启动系统
 
 ```bash
 python -m streamlit run app.py
 ```
 
-## Install
+## 安装方式
+
+### pip
+
 ```bash
 pip install -r requirements.txt
 ```
 
-## Conda
+### conda
+
 ```bash
 conda env create -f environment.yml
 conda activate rag-paper-search
 ```
 
-## Download
-- Baidu Netdisk full package: `TO_BE_FILLED`
-- Suggested package name: `RAG_full_package.zip`
+## 配置说明
 
-## Important Files
-- `app.py`: Streamlit entry
-- `app_settings.example.json`: public config template
-- `UPLOAD_TO_GITHUB.md`: upload and distribution guide
-- `BAIDU_NETDISK_TEMPLATE.md`: placeholder text for your Netdisk link
+请基于 `app_settings.example.json` 创建本地配置文件，并补充以下内容：
 
-## Notes
-- Keep secrets out of GitHub
-- Keep large datasets and model files out of GitHub
-- Use Baidu Netdisk for the full project assets
+- Qwen API 配置
+- OpenAlex 配置
+- 本地论文 CSV 路径
+- 学科树目录路径
+- 分类模型路径
+- 缓存目录路径
 
+请勿将真实密钥或本地私有配置上传到 GitHub。
+
+## 评测与实验
+
+项目支持使用样本数据或测试集进行效果评估，可统计如下指标：
+
+- Hit@1 / Hit@3 / Hit@5 / Hit@10 / Hit@20
+- MRR
+- 平均检索延迟
+- 候选覆盖率
+- 重排前后效果对比
+
+评测脚本与结果统计逻辑位于 `scripts/` 与 `benchmarks/` 目录中。
+
+## 重要文件
+
+- `app.py`：Streamlit 启动入口
+- `app_settings.example.json`：公开配置模板
+- `requirements.txt`：Python 依赖
+- `environment.yml`：Conda 环境文件
+- `UPLOAD_TO_GITHUB.md`：GitHub 上传与发布说明
+- `BAIDU_NETDISK_TEMPLATE.md`：完整资源包分发说明模板
+
+## 使用说明
+
+- GitHub 版本用于展示代码、文档与轻量脚本
+- 完整运行请结合百度网盘中的模型与数据资源
+- 若仅用于代码阅读或架构理解，可直接查看 `rag_paper_search/` 下各模块
+
+## 注意事项
+
+- 不要将真实 API Key 上传到 GitHub
+- 不要将超大模型文件和原始大规模数据直接上传到 GitHub
+- 建议将完整运行资源统一放在百度网盘中分发
+- 若用于比赛提交，请确保仓库材料与文档内容保持一致
+
+## 致谢
+
+本项目参考了学术论文检索与智能搜索领域的相关工作与公开资源，包括但不限于：
+
+- PaSa
+- SPAR
+- OpenAlex
+- arXiv 生态数据工具
+- 基于 BM25 与重排的学术搜索方案
+
+详细引用与技术来源请参见项目文档。

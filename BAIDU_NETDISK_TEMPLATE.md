@@ -1,17 +1,4 @@
-# Baidu Netdisk Template
 
-Full package download link:
+链接:https://pan.baidu.com/s/10SEvwjV89Xnie3evplaeRg?pwd=t9ju 提取码:t9ju 复制这段内容后打开百度网盘手机App，操作更方便哦
 
-`TO_BE_FILLED`
-
-Recommended archive name:
-
-`RAG_full_package.zip`
-
-Recommended contents:
-- source code
-- `model/`
-- `taxonomy_tree/`
-- required CSV files
-- optional cache files for offline demo
 
